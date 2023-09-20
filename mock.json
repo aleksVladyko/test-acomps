@@ -1,0 +1,122 @@
+[
+    {
+      "id": 1,
+      "name": "Server 1",
+      "tag": "tag1",
+      "type": "server"
+    },
+    {
+      "id": 2,
+      "name": "Server 2",
+      "tag": "tag2",
+      "type": "server"
+    },
+    {
+      "id": 3,
+      "name": "Server 3",
+      "tag": "tag3",
+      "type": "server"
+    },
+    {
+      "id": 4,
+      "name": "Server 4",
+      "tag": "tag4",
+      "type": "server"
+    },
+    {
+      "id": 5,
+      "name": "Server 5",
+      "tag": "tag5",
+      "type": "server"
+    },
+    {
+      "id": 6,
+      "name": "PC 1",
+      "tag": "tag1",
+      "type": "pc"
+    },
+    {
+      "id": 7,
+      "name": "PC 2",
+      "tag": "tag2",
+      "type": "pc"
+    },
+    {
+      "id": 8,
+      "name": "PC 3",
+      "tag": "tag3",
+      "type": "pc"
+    },
+    {
+      "id": 9,
+      "name": "PC 4",
+      "tag": "tag4",
+      "type": "pc"
+    },
+    {
+      "id": 10,
+      "name": "PC 5",
+      "tag": "tag5",
+      "type": "pc"
+    },
+    {
+      "id": 11,
+      "name": "Server 6",
+      "tag": "tag6",
+      "type": "server"
+    },
+    {
+      "id": 12,
+      "name": "Server 7",
+      "tag": "tag7",
+      "type": "server"
+    },
+    {
+      "id": 13,
+      "name": "Server 8",
+      "tag": "tag8",
+      "type": "server"
+    },
+    {
+      "id": 14,
+      "name": "Server 9",
+      "tag": "tag9",
+      "type": "server"
+    },
+    {
+      "id": 15,
+      "name": "Server 10",
+      "tag": "tag10",
+      "type": "server"
+    },
+    {
+      "id": 16,
+      "name": "PC 6",
+      "tag": "tag6",
+      "type": "pc"
+    },
+    {
+      "id": 17,
+      "name": "PC 7",
+      "tag": "tag7",
+      "type": "pc"
+    },
+    {
+      "id": 18,
+      "name": "PC 8",
+      "tag": "tag8",
+      "type": "pc"
+    },
+    {
+      "id": 19,
+      "name": "PC 9",
+      "tag": "tag9",
+      "type": "pc"
+    },
+    {
+      "id": 20,
+      "name": "PC 10",
+      "tag": "tag10",
+      "type": "pc"
+    }
+  ]
