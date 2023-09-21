@@ -30,4 +30,4 @@ const endpointsSlice = createSlice({
 export const { setSearchVal, setEndpointType, setTags, setCurrentPage } =
     endpointsSlice.actions;
 
-export default endpointsSlice.reducer
+export default endpointsSlice.reducer;

@@ -8,8 +8,6 @@
   width: 100%;
 }
 .wrapper {
-  margin: 0;
-  padding: 0;
   display: flex;  
   flex-flow: row wrap;
   font-weight: bold;
@@ -20,8 +18,5 @@
   flex:1 1 100%;
 }
 .header {
-  margin: 0;
-  padding: 0;
-
   background: rgba(242, 172, 160, .2);
 }

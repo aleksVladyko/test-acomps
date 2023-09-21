@@ -23,15 +23,6 @@ const Sidebar = () => {
                 </Col>
             </Row>
         </Container>
-        // <Container>
-        //     {/* <Header
-        //         show={show}
-        //         handleClose={handleClose}
-        //         handleShow={handleShow}
-        //     /> */}
-        //     <Outlet />
-        //     {/* <Footer /> */}
-        // </Container>
     );
 };
 
