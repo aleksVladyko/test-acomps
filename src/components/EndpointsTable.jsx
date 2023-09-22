@@ -145,7 +145,7 @@ const EndpointsTable = () => {
                         name="tag"
                     >
                         <option value="">All</option>
-  {Array.from(new Set(endpoints.map(item => item.tag))).map(tagValue => (
+  {[...new Set(endpoints.map(item => item.tag))].map(tagValue => (
     <option key={tagValue} value={tagValue}>{tagValue}</option>
   ))}
                         {/* <option value="">All</option>
