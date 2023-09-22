@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Table, Button, Pagination, Container } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import {
@@ -11,6 +11,7 @@ import {
 } from "../store/endpointsSlice";
 
 const EndpointsTable = () => {
+
     const dispatch = useDispatch();
     const {
         endpoints,
@@ -22,6 +23,7 @@ const EndpointsTable = () => {
     } = useSelector((state) => state.endpoints);
     const { tag } = useParams();
     const [filteredEndpoints, setFilteredEndpoints] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Фильтрация на основе поиска, типа или тэга
@@ -40,6 +42,7 @@ const EndpointsTable = () => {
         });
         setFilteredEndpoints(filtered);
     }, [endpoints, searchVal, endpointType, tags]);
+
     useEffect(() => {
         // Анализ параметров URL и обновление состояния Redux
         const searchParams = new URLSearchParams();
@@ -67,12 +70,11 @@ const EndpointsTable = () => {
             searchParams.set("tag", tag);
         }
         dispatch(setCurrentPage(1));
-        window.history.replaceState(
-            null,
-            "",
-            `/cmdb/endpoints?${searchParams.toString()}`
-        );
-    };
+        navigate(`/cmdb/endpoints?${searchParams.toString()}`, {
+            replace: true,
+        });
+    }
+
     const handleFilter = (e) => {
         const { name, value } = e.target;
         if (name === "endpoint_type") {
@@ -84,7 +86,8 @@ const EndpointsTable = () => {
             );
             dispatch(setTags(selectedTags));
         }
-    };
+    }
+
     const handlePageChange = (page) => {
         const searchParams = new URLSearchParams();
         searchParams.set("search_val", searchVal);
@@ -94,19 +97,20 @@ const EndpointsTable = () => {
         if (tag) {
             searchParams.set("tag", tag);
         }
-        window.history.replaceState(
-            null,
-            "",
-            `/cmdb/endpoints?${searchParams.toString()}`
-        );
         dispatch(setCurrentPage(page));
-    };
+        navigate(`/cmdb/endpoints?${searchParams.toString()}`, {
+            replace: true,
+        });
+    }
+
     const handleReset = () => {
         dispatch(setSearchVal(""));
         dispatch(setEndpointType(""));
         dispatch(setTags([]));
         dispatch(setCurrentPage(1));
-      };
+        navigate("/cmdb/endpoints");
+    }
+
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const paginatedEndpoints = filteredEndpoints.slice(startIndex, endIndex);
@@ -145,9 +149,13 @@ const EndpointsTable = () => {
                         name="tag"
                     >
                         <option value="">All</option>
-  {[...new Set(endpoints.map(item => item.tag))].map(tagValue => (
-    <option key={tagValue} value={tagValue}>{tagValue}</option>
-  ))}
+                        {[...new Set(endpoints.map((item) => item.tag))].map(
+                            (tagValue) => (
+                                <option key={tagValue} value={tagValue}>
+                                    {tagValue}
+                                </option>
+                            )
+                        )}
                         {/* <option value="">All</option>
                         <option value="tag1">tag1</option>
                         <option value="tag2">tag2</option>
