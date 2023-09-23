@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { Table, Button, Pagination, Container } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import {
@@ -11,8 +11,9 @@ import {
 } from "../store/endpointsSlice";
 
 const EndpointsTable = () => {
-
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
     const {
         endpoints,
         searchVal,
@@ -23,7 +24,6 @@ const EndpointsTable = () => {
     } = useSelector((state) => state.endpoints);
     const { tag } = useParams();
     const [filteredEndpoints, setFilteredEndpoints] = useState([]);
-    const navigate = useNavigate();
 
     useEffect(() => {
         // Фильтрация на основе поиска, типа или тэга
@@ -45,63 +45,55 @@ const EndpointsTable = () => {
 
     useEffect(() => {
         // Анализ параметров URL и обновление состояния Redux
-        const searchParams = new URLSearchParams();
-        searchParams.set("search_val", searchVal);
-        searchParams.set("endpoint_type", endpointType);
-        tags.forEach((tag) => searchParams.append("tags[]", tag));
-        searchParams.set("page", 1);
-        if (tag) {
-            searchParams.set("tag", tag);
-        }
-        dispatch(setSearchVal(searchVal));
-        dispatch(setEndpointType(endpointType));
-        dispatch(setTags(tags));
-        dispatch(setCurrentPage(1));
-    }, [searchVal, endpointType, tags, tag, dispatch]);
+        dispatch(setSearchVal(searchParams.get("search_val") || ""));
+        dispatch(setEndpointType(searchParams.get("endpoint_type") || ""));
+        dispatch(setTags(searchParams.getAll("tags[]") || []));
+        dispatch(setCurrentPage(Number(searchParams.get("page")) || 1));
+    }, [searchParams, dispatch]);
 
     const handleSearch = (e) => {
         e.preventDefault();
-        const searchParams = new URLSearchParams();
         searchParams.set("search_val", searchVal);
-        searchParams.set("endpoint_type", endpointType);
-        tags.forEach((tag) => searchParams.append("tags[]", tag));
-        searchParams.set("page", 1);
-        if (tag) {
-            searchParams.set("tag", tag);
-        }
         dispatch(setCurrentPage(1));
+        setSearchParams(searchParams);
         navigate(`/cmdb/endpoints?${searchParams.toString()}`, {
             replace: true,
         });
-    }
+    };
 
     const handleFilter = (e) => {
         const { name, value } = e.target;
         if (name === "endpoint_type") {
+            searchParams.set("endpoint_type", value);
             dispatch(setEndpointType(value));
+            navigate(`/cmdb/endpoints?${searchParams.toString()}`, {
+                replace: true,
+            });
         } else if (name === "tag") {
             const selectedTags = Array.from(
                 e.target.selectedOptions,
                 (option) => option.value
             );
+            searchParams.set("tag", selectedTags);
             dispatch(setTags(selectedTags));
+            navigate(`/cmdb/endpoints?${searchParams.toString()}`, {
+                replace: true,
+            });
         }
-    }
+    };
 
     const handlePageChange = (page) => {
-        const searchParams = new URLSearchParams();
-        searchParams.set("search_val", searchVal);
-        searchParams.set("endpoint_type", endpointType);
         tags.forEach((tag) => searchParams.append("tags[]", tag));
         searchParams.set("page", page);
         if (tag) {
             searchParams.set("tag", tag);
         }
         dispatch(setCurrentPage(page));
+        setSearchParams(searchParams);
         navigate(`/cmdb/endpoints?${searchParams.toString()}`, {
             replace: true,
         });
-    }
+    };
 
     const handleReset = () => {
         dispatch(setSearchVal(""));
@@ -109,7 +101,7 @@ const EndpointsTable = () => {
         dispatch(setTags([]));
         dispatch(setCurrentPage(1));
         navigate("/cmdb/endpoints");
-    }
+    };
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -156,12 +148,6 @@ const EndpointsTable = () => {
                                 </option>
                             )
                         )}
-                        {/* <option value="">All</option>
-                        <option value="tag1">tag1</option>
-                        <option value="tag2">tag2</option>
-                        <option value="tag3">tag3</option>
-                        <option value="tag4">tag4</option>
-                        <option value="tag5">tag5</option> */}
                     </Form.Control>
                 </Form.Group>
                 <Button variant="primary" type="reset" onClick={handleReset}>
