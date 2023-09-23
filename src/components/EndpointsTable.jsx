@@ -66,20 +66,18 @@ const EndpointsTable = () => {
         if (name === "endpoint_type") {
             searchParams.set("endpoint_type", value);
             dispatch(setEndpointType(value));
-            navigate(`/cmdb/endpoints?${searchParams.toString()}`, {
-                replace: true,
-            });
         } else if (name === "tag") {
             const selectedTags = Array.from(
                 e.target.selectedOptions,
                 (option) => option.value
             );
-            searchParams.set("tag", selectedTags);
+            searchParams.set("tags[]", selectedTags);
             dispatch(setTags(selectedTags));
-            navigate(`/cmdb/endpoints?${searchParams.toString()}`, {
-                replace: true,
-            });
         }
+        setSearchParams(searchParams);
+        navigate(`/cmdb/endpoints?${searchParams.toString()}`, {
+            replace: true,
+        });
     };
 
     const handlePageChange = (page) => {
